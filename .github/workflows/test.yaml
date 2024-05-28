@@ -15,6 +15,7 @@ jobs:
       uses: actions/checkout@v3
     - name: Explore dir
       run: |
+        echo develop
         lsb_release -a
         df -h
         free -h
