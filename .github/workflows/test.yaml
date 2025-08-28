@@ -48,10 +48,14 @@ jobs:
           fi
 
   deploy-dev:
-    needs: determine-deploy-type
-    if: needs.determine-deploy-type.outputs.deploy_type == 'standard'
     runs-on: ubuntu-latest
     steps:
+      - name: Skip if hotfix
+        run: |
+          if [[ ${{ github.event.inputs.deploy_type }} == hotfix ] || [[ ${{ github.ref }} == refs/heads/hotfix/* ]]; then
+            echo "Skipping standard deployment."
+            exit 0
+          fi
       - name: Explore dir
         run: |
           lsb_release -a
@@ -59,16 +63,8 @@ jobs:
           free -h
           pwd; ls -alh;
 
-  wait-for-dev:
-    needs: deploy-dev
-    runs-on: ubuntu-latest
-    if: always()
-    steps:
-      - name: Wait complete
-        run: echo "Standard deploy finished or skipped."
-
   deploy-staging:
-    needs: wait-for-dev
+    needs: deploy-dev
     runs-on: ubuntu-latest
     steps:
       - name: Explore dir
