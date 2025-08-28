@@ -43,12 +43,22 @@ jobs:
           df -h
           free -h
           pwd; ls -alh;
-          pddd
 
   deploy-staging:
     needs: deploy-dev
     runs-on: ubuntu-latest
     if: always() && !failure() && !cancelled()
+    steps:
+      - name: Explore dir
+        run: |
+          lsb_release -a
+          df -h
+          free -h
+          pwd; ls -alh;
+
+  deploy-prod:
+    needs: deploy-staging
+    runs-on: ubuntu-latest
     steps:
       - name: Explore dir
         run: |
