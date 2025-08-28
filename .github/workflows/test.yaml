@@ -43,6 +43,7 @@ jobs:
           df -h
           free -h
           pwd; ls -alh;
+          pddd
 
   deploy-staging:
     needs: deploy-dev
@@ -55,4 +56,3 @@ jobs:
           df -h
           free -h
           pwd; ls -alh;
-          pddd
