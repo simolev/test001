@@ -45,6 +45,7 @@ jobs:
             echo "deploy_type=hotfix" >> $GITHUB_OUTPUT
           else
             echo "target=standard" >> $GITHUB_OUTPUT
+          fi
 
   deploy-dev:
     needs: determine-deploy-type
