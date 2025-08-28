@@ -52,19 +52,17 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Skip if hotfix
+      - name: Determine deployment type
+        id: set-type
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            deploy_type="unknown"
-          elif [[ "refs/heads/main" == "refs/heads/hotfix/*" ]]; then
-            deploy_type="hotfix"
+            echo "deploy_type=${{ github.event.inputs.deploy_type }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/hotfix/* ]]; then
+            echo "deploy_type=hotfix" >> $GITHUB_OUTPUT
           else
-            deploy_type="standard"
+            echo "deploy_type=standard" >> $GITHUB_OUTPUT
           fi
-          if [[ "$deploy_type" == hotfix ]]; then
-            echo "Skipping standard deployment."
-            exit 0
-          fi
+          echo "deploy_type"
       - name: Explore dir
         run: |
           lsb_release -a
