@@ -37,7 +37,7 @@ jobs:
       - name: Determine deployment type
         id: set-type
         run: |
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]] && [[ "${{ github.event.inputs.deploy_type }}" == "hotfix" ]] then
             deploy_type=${{ github.event.inputs.deploy_type }}
           elif [[ "${{ github.ref }}" == refs/heads/hotfix/* ]]; then
             deploy_type=hotfix
