@@ -44,7 +44,7 @@ jobs:
           elif [[ "${{ github.ref }}" == refs/heads/hotfix/* ]]; then
             echo "deploy_type=hotfix" >> $GITHUB_OUTPUT
           else
-            echo "target=standard" >> $GITHUB_OUTPUT
+            echo "deploy_type=standard" >> $GITHUB_OUTPUT
           fi
 
   deploy-dev:
