@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Skip if hotfix
         run: |
-          if [[ ${{ github.event.inputs.deploy_type }} == hotfix ]] || [[ ${{ github.ref }} == refs/heads/hotfix/* ]]; then
+          if [[ "${{ github.event.inputs.deploy_type" }} == "hotfix" ]] || [[ "${{ github.ref }}" == "refs/heads/hotfix/*" ]]; then
             echo "Skipping standard deployment."
             exit 0
           fi
