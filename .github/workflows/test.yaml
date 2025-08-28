@@ -41,7 +41,6 @@ jobs:
             echo "Skipping standard deployment."
             exit 0
           fi
-          echo $deploy_type
       - name: Explore dir
         run: |
           lsb_release -a
