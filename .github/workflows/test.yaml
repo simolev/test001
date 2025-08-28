@@ -55,7 +55,6 @@ jobs:
       - name: Skip if hotfix
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            #deploy_type="${{ github.event.inputs.deploy_type" }}
             deploy_type="unknown"
           elif [[ "refs/heads/main" == "refs/heads/hotfix/*" ]]; then
             deploy_type="hotfix"
