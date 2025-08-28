@@ -30,6 +30,24 @@ jobs:
           free -h
           pwd; ls -alh;
 
+  determine-deploy-type:
+    runs-on: ubuntu-latest
+    needs: build
+    outputs:
+      deploy_type: ${{ steps.set-type.outputs.deploy_type }}
+    steps:
+      - name: Determine deployment type
+        id: set-type
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            echo "deploy_type=${{ github.event.inputs.deploy_type }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref }}" == refs/heads/hotfix/* ]]; then
+            echo "deploy_type=hotfix" >> $GITHUB_OUTPUT
+          else
+            echo "deploy_type=standard" >> $GITHUB_OUTPUT
+          fi
+          echo "deploy_type"
+
   deploy-dev:
     needs: build
     runs-on: ubuntu-latest
@@ -37,7 +55,8 @@ jobs:
       - name: Skip if hotfix
         run: |
           if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            deploy_type="${{ github.event.inputs.deploy_type" }}
+            #deploy_type="${{ github.event.inputs.deploy_type" }}
+            deploy_type="unknown"
           elif [[ "refs/heads/main" == "refs/heads/hotfix/*" ]]; then
             deploy_type="hotfix"
           else
