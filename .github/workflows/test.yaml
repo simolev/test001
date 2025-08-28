@@ -36,7 +36,14 @@ jobs:
     steps:
       - name: Skip if hotfix
         run: |
-          if ([[ "${{ github.event_name }}" == "workflow_dispatch" ]] && [[ "${{ github.event.inputs.deploy_type" }} == "hotfix" ]]) || [[ "${{ github.ref }}" == "refs/heads/hotfix/*" ]]; then
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            deploy_type="${{ github.event.inputs.deploy_type" }}
+          elif [[ "refs/heads/main" == "refs/heads/hotfix/*" ]]; then
+            deploy_type="hotfix"
+          else
+            deploy_type="standard"
+          fi
+          if [[ "$deploy_type" == hotfix ]]; then
             echo "Skipping standard deployment."
             exit 0
           fi
